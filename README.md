@@ -10,6 +10,7 @@ A personal voice assistant built in Python — inspired by JARVIS, built from sc
 * 🌡️ Tells the temperature of any city
 * 🌐 Opens websites by voice ("open youtube")
 * 🖥️ Opens desktop apps by voice ("open notepad", "launch calculator")
+* 🔒 Locks the system with one voice command ("lock my system")
 * 🎨 Styled terminal output via `rich`
 * 🧩 Clean, modular file structure — easy to add new skills
 
@@ -37,7 +38,7 @@ CustomJarvis/
 2. Install dependencies:
 
 ```bash
-   pip install SpeechRecognition pyttsx3 pyaudio rich
+   pip install SpeechRecognition pyttsx3 pyaudio rich pyfiglet
    ```
 
 3. Run it:
