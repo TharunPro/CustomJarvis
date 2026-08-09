@@ -27,6 +27,17 @@ def tell_date():
     today = datetime.date.today()
     speak(f"Today's date is {today.strftime('%B %d, %Y')}")
 
+def tell_weather(prompt=None):
+    if prompt and " in " in prompt:
+        city = prompt.split(" in ")[-1].strip()
+    else:
+        city = listen_for("Which city's weather should I fetch?")    
+
+    if not city:
+        return
+    result = get_weather(city)                 
+    speak(result)
+    
 def open_site(name=None):
     name = name or listen_for("Which website should I open?")
     if not name:
@@ -61,3 +72,4 @@ SITE_TRIGGERS = ["website", "site", "webpage", "open site", "open website"]
 APP_TRIGGERS = ["app", "application", "program", "launch"]
 HELP_TRIGGERS = ["help", "what can you do", "features"]
 EXIT_TRIGGERS = ["exit", "quit", "stop", "goodbye", "bye"]
+WEATHER_TRIGGERS = ["weather", "forecast", "temperature"]

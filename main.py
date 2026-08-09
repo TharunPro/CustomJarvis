@@ -1,9 +1,9 @@
 import pyfiglet
 from voice import speak, listen, console  # Voice System
 from skills import (
-    greet, show_help, tell_time, tell_date,
+    greet, show_help, tell_time, tell_date, tell_weather,
     open_site, open_app,
-    TIME_TRIGGERS, DATE_TRIGGERS, SITE_TRIGGERS, APP_TRIGGERS, HELP_TRIGGERS, EXIT_TRIGGERS
+    TIME_TRIGGERS, DATE_TRIGGERS, SITE_TRIGGERS, APP_TRIGGERS, HELP_TRIGGERS, EXIT_TRIGGERS, WEATHER_TRIGGERS,
 ) # Skills for J.A.R.V.I.S
 from sites import SITES # Websites
 from apps import APPS # Applications
@@ -28,6 +28,8 @@ def handle_command(prompt):
         show_help()
     elif any(word in prompt for word in TIME_TRIGGERS):
         tell_time()
+    elif any(word in prompt for word in WEATHER_TRIGGERS):
+        tell_weather(prompt)
     elif any(word in prompt for word in DATE_TRIGGERS):
         tell_date()
     elif any(word in prompt for word in SITE_TRIGGERS):
