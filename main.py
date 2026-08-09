@@ -2,8 +2,8 @@ import pyfiglet
 from voice import speak, listen, console  # Voice System
 from skills import (
     greet, show_help, tell_time, tell_date, tell_weather,
-    open_site, open_app,
-    TIME_TRIGGERS, DATE_TRIGGERS, SITE_TRIGGERS, APP_TRIGGERS, HELP_TRIGGERS, EXIT_TRIGGERS, WEATHER_TRIGGERS,
+    open_site, open_app, lock_pc,
+    TIME_TRIGGERS, DATE_TRIGGERS, SITE_TRIGGERS, APP_TRIGGERS, HELP_TRIGGERS, EXIT_TRIGGERS, WEATHER_TRIGGERS, LOCK_TRIGGERS
 ) # Skills for J.A.R.V.I.S
 from sites import SITES # Websites
 from apps import APPS # Applications
@@ -36,6 +36,8 @@ def handle_command(prompt):
         open_site()
     elif any(word in prompt for word in APP_TRIGGERS):
         open_app()
+    elif any(word in prompt for word in LOCK_TRIGGERS):
+        lock_pc()
     else:
         speak("I didn't catch that. Say help to see what I can do.")
 

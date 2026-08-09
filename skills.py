@@ -1,20 +1,12 @@
 import datetime
+import ctypes
+import sys
 import os
 import webbrowser
 from apps import APPS
 from sites import SITES
 from weather import get_weather
 from voice import speak, listen
-
-# Skills for J.A.R.V.I.S so far : 
-# 1. Greeting the user based on the time of day.
-# 2. Showing help information about what J.A.R.V.I.S can do.
-# 3. Telling the current time.
-# 4. Telling today's date.
-# 5. Telling the weather for a specified city.
-# 6. Opening specified websites.
-# 7. Opening specified applications.
-
 
 def greet():
     hour = datetime.datetime.now().hour
@@ -71,15 +63,22 @@ def open_app(name=None):
     else:
         speak("I don't have that app yet.")
 
+def lock_pc():
+    speak("Locking your PC now. Goodbye Sir.")
+    ctypes.windll.user32.LockWorkStation()
+    sys.exit()
+
+
 def listen_for(question):
     speak(question)
     answer = listen()
     return answer.strip().lower() if answer else ""
 
-TIME_TRIGGERS = ["time", "what time is it", "current time", "tell me the time"]
-DATE_TRIGGERS = ["date", "today's date", "what's the date"]
-SITE_TRIGGERS = ["website", "site", "webpage", "open site", "open website"]
+TIME_TRIGGERS = ["time"]
+DATE_TRIGGERS = ["date"]
+SITE_TRIGGERS = ["website", "site", "webpage"]
 APP_TRIGGERS = ["app", "application", "program", "launch"]
-HELP_TRIGGERS = ["help", "what can you do", "features"]
+HELP_TRIGGERS = ["help", "features"]
 EXIT_TRIGGERS = ["exit", "quit", "stop", "goodbye", "bye"]
 WEATHER_TRIGGERS = ["weather", "forecast", "temperature"]
+LOCK_TRIGGERS = ["lock"]
