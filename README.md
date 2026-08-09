@@ -7,6 +7,7 @@ A personal voice assistant built in Python — inspired by JARVIS, built from sc
 * 🎙️ Voice input via microphone (Google Speech Recognition)
 * 🔊 Spoken responses via text-to-speech (`pyttsx3`)
 * 🕒 Tells the current time and date
+* 🌡️ Tells the temperature of any city
 * 🌐 Opens websites by voice ("open youtube")
 * 🖥️ Opens desktop apps by voice ("open notepad", "launch calculator")
 * 🎨 Styled terminal output via `rich`
