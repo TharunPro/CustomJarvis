@@ -6,6 +6,16 @@ from sites import SITES
 from weather import get_weather
 from voice import speak, listen
 
+# Skills for J.A.R.V.I.S so far : 
+# 1. Greeting the user based on the time of day.
+# 2. Showing help information about what J.A.R.V.I.S can do.
+# 3. Telling the current time.
+# 4. Telling today's date.
+# 5. Telling the weather for a specified city.
+# 6. Opening specified websites.
+# 7. Opening specified applications.
+
+
 def greet():
     hour = datetime.datetime.now().hour
     if 5 <= hour < 12:
