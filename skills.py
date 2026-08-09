@@ -3,6 +3,7 @@ import os
 import webbrowser
 from apps import APPS
 from sites import SITES
+from weather import get_weather
 from voice import speak, listen
 
 def greet():
