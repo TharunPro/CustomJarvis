@@ -5,9 +5,13 @@ from rich.console import Console
 console = Console()
 recognizer = sr.Recognizer()
 
+JARVIS_VOICE_ID = r"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0"
+
 def speak(text):
     console.print(f"[bold cyan]Jarvis:[/bold cyan] {text}")
     engine = pyttsx3.init()
+    engine.setProperty('voice', JARVIS_VOICE_ID)
+    engine.setProperty('rate', 170)
     engine.say(text)
     engine.runAndWait()
     engine.stop()
