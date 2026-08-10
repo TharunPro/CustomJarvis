@@ -1,14 +1,9 @@
 import pyfiglet
 from voice import speak, listen, console  # Voice System
-from skills import (
-    greet, show_help, tell_time, tell_date, tell_weather,
-    open_site, open_app, lock_pc,
-    TIME_TRIGGERS, DATE_TRIGGERS, SITE_TRIGGERS, APP_TRIGGERS, HELP_TRIGGERS, EXIT_TRIGGERS, WEATHER_TRIGGERS, LOCK_TRIGGERS
-) # Skills for J.A.R.V.I.S
+from skills import (greet, open_site, open_app, EXIT_TRIGGERS, COMMAND_MAP) 
 from sites import SITES # Websites
 from apps import APPS # Applications
 from rich.panel import Panel # Rich Panel for UI
-
 
 console.print(
     pyfiglet.figlet_format("JARVIS", font="ansi_shadow", justify="center"),
@@ -24,26 +19,17 @@ def handle_command(prompt):
             open_app(target)
         else:
             speak("I don't know that site or app yet.")
-    elif any(word in prompt for word in HELP_TRIGGERS):
-        show_help()
-    elif any(word in prompt for word in TIME_TRIGGERS):
-        tell_time()
-    elif any(word in prompt for word in WEATHER_TRIGGERS):
-        tell_weather(prompt)
-    elif any(word in prompt for word in DATE_TRIGGERS):
-        tell_date()
-    elif any(word in prompt for word in SITE_TRIGGERS):
-        open_site()
-    elif any(word in prompt for word in APP_TRIGGERS):
-        open_app()
-    elif any(word in prompt for word in LOCK_TRIGGERS):
-        lock_pc()
-    else:
-        speak("I didn't catch that. Say help to see what I can do.")
+        return
+    
+    for keyword, (func, needs_prompt) in COMMAND_MAP.items():
+        if keyword in prompt:
+            func(prompt) if needs_prompt else func()
+            return
+
+    speak("I didn't catch that. Say help to see what I can do.")
 
 def main():
     greet()
-
     while True:
         prompt = listen()
         if not prompt:

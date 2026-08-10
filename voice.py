@@ -19,7 +19,7 @@ def speak(text):
 def listen():
     with sr.Microphone() as source:
         console.print("[dim]Listening...[/dim]")
-        recognizer.adjust_for_ambient_noise(source, duration=1)
+        recognizer.adjust_for_ambient_noise(source, duration=1.2)
         audio = recognizer.listen(source)
     try:
         text = recognizer.recognize_google(audio)

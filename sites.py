@@ -37,7 +37,7 @@ SITES = {
     "claude": "https://claude.ai",
 
     # Shopping
-    "amazon": "https://amazon.com",
+    "amazon": "https://amazon.de",
 
     # Games / fun
     "chess": "https://chess.com",

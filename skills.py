@@ -3,13 +3,22 @@ import ctypes
 import sys
 import os
 import webbrowser
+import urllib.parse
+import winshell
+from rich.console import Console
 from apps import APPS
 from sites import SITES
 from weather import get_weather
 from voice import speak, listen
 
+console = Console()
+
+# Basic Skills
+
 def greet():
     hour = datetime.datetime.now().hour
+    #speak("What is your name?")
+    #name = listen()
     if 5 <= hour < 12:
         greeting = "Good morning"
     elif 12 <= hour < 18:
@@ -19,8 +28,15 @@ def greet():
     speak(f"{greeting} Sir, what should we do today?")
 
 def show_help():
-    speak("I can tell the time, tell you today's date, open websites, and open apps for you.")
-
+    console.print("[bold cyan]Custom Jarvis Features[/bold cyan]")
+    console.print("[green]•[/green] Time and date")
+    console.print("[green]•[/green] Weather by city")
+    console.print("[green]•[/green] Web search")
+    console.print("[green]•[/green] Open websites")
+    console.print("[green]•[/green] Open apps")
+    console.print("[green]•[/green] Lock PC")
+    console.print("[green]•[/green] Empty recycle bin")
+   
 def tell_time():
     now = datetime.datetime.now()
     speak(f"The current time is {now.strftime('%H:%M')}")
@@ -39,6 +55,26 @@ def tell_weather(prompt=None):
         return
     result = get_weather(city)                 
     speak(result)
+
+# Web & App Skills
+
+def search_web(prompt=None):
+    query = None
+    if prompt:
+        for trigger in ("search for", "google", "search"):
+            if trigger in prompt:
+                query = prompt.split(trigger, 1)[-1].strip()
+                break
+
+    if not query:
+        query = listen_for("What should I search for?")
+
+    if not query:
+        return
+
+    url = f"https://www.google.com/search?q={urllib.parse.quote_plus(query)}"
+    webbrowser.open(url)
+    speak(f"Searching for {query} on Google.")
     
 def open_site(name=None):
     name = name or listen_for("Which website should I open?")
@@ -63,6 +99,21 @@ def open_app(name=None):
     else:
         speak("I don't have that app yet.")
 
+# System Skills
+
+def empty_recycle_bin():
+    speak("Are you sure you want to empty the recycle bin?")
+    confirmation = listen()
+    if confirmation and "yes" in confirmation:
+        try:
+            winshell.recycle_bin().empty(confirm=False, show_progress=False, sound=True)
+            speak("I successfully emptied the recycle bin.")
+        except Exception:
+            speak("I couldn't empty the recycle bin.")
+
+    else:
+        speak("Okay I won't empty the recycle bin.")
+
 def lock_pc():
     speak("Locking your PC now. Goodbye Sir.")
     ctypes.windll.user32.LockWorkStation()
@@ -74,11 +125,27 @@ def listen_for(question):
     answer = listen()
     return answer.strip().lower() if answer else ""
 
-TIME_TRIGGERS = ["time"]
-DATE_TRIGGERS = ["date"]
-SITE_TRIGGERS = ["website", "site", "webpage"]
-APP_TRIGGERS = ["app", "application", "program", "launch"]
-HELP_TRIGGERS = ["help", "features"]
 EXIT_TRIGGERS = ["exit", "quit", "stop", "goodbye", "bye"]
-WEATHER_TRIGGERS = ["weather", "forecast", "temperature"]
-LOCK_TRIGGERS = ["lock"]
+
+COMMAND_MAP = {
+    "time": (tell_time, False),
+    "date": (tell_date, False),
+    "weather": (tell_weather, True),
+    "forecast": (tell_weather, True),
+    "temperature": (tell_weather, True),
+    "help": (show_help, False),
+    "what can you do": (show_help, False),
+    "features": (show_help, False),
+    "app": (open_app, False),
+    "application": (open_app, False),
+    "program": (open_app, False),
+    "launch": (open_app, False),
+    "site": (open_site, False),
+    "website": (open_site, False),
+    "webpage": (open_site, False),
+    "search": (search_web, True),
+    "google": (search_web, True),
+    "lock": (lock_pc, False),
+    "recycle bin": (empty_recycle_bin, False),
+    "recycle": (empty_recycle_bin, False),
+}
