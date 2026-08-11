@@ -31,7 +31,7 @@ def handle_command(prompt):
 def main():
     greet()
     while True:
-        prompt = listen()
+        prompt = listen().rstrip(".,!?")
         if not prompt:
             continue
         if any(word in prompt for word in EXIT_TRIGGERS):

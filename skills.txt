@@ -8,3 +8,6 @@ Skills for J.A.R.V.I.S so far :
 6. Opening specified websites.
 7. Opening specified applications.
 8. Locking the System.
+9. Emptying the Recycle Bin
+10. Taking a screenshot
+11. Searching the web

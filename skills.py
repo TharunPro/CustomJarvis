@@ -1,4 +1,5 @@
 import datetime
+import pyautogui
 import ctypes
 import sys
 import os
@@ -101,6 +102,18 @@ def open_app(name=None):
 
 # System Skills
 
+def screenshot():
+    speak("Taking a screenshot now.")
+    target = os.path.expanduser("~/Pictures/Screenshots")
+    os.makedirs(target, exist_ok=True)
+
+    now = datetime.datetime.now()
+    timestamp = now.strftime('%B_%d_%Y_%H-%M-%S')
+    filename = f"screenshot_{timestamp}.png"
+    full_path = os.path.join(target, filename)
+    pyautogui.screenshot(full_path)
+    speak(f"Screenshot saved as {full_path}")
+
 def empty_recycle_bin():
     speak("Are you sure you want to empty the recycle bin?")
     confirmation = listen()
@@ -122,7 +135,7 @@ def lock_pc():
 
 def listen_for(question):
     speak(question)
-    answer = listen()
+    answer = listen().rstrip(".,!?")
     return answer.strip().lower() if answer else ""
 
 EXIT_TRIGGERS = ["exit", "quit", "stop", "goodbye", "bye"]
@@ -146,6 +159,8 @@ COMMAND_MAP = {
     "search": (search_web, True),
     "google": (search_web, True),
     "lock": (lock_pc, False),
+    "screenshot": (screenshot, False),
+    "screen shot": (screenshot, False),
     "recycle bin": (empty_recycle_bin, False),
     "recycle": (empty_recycle_bin, False),
 }
