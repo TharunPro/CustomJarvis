@@ -6,6 +6,8 @@ import os
 import webbrowser
 import urllib.parse
 import winshell
+import pyjokes
+import psutil
 from rich.console import Console
 from apps import APPS
 from sites import SITES
@@ -13,6 +15,11 @@ from weather import get_weather
 from voice import speak, listen
 
 console = Console()
+
+def convertTime(seconds):
+    minutes, seconds = divmod(seconds, 60)
+    hours, minutes = divmod(minutes, 60)
+    return "%d:%02d:%02d" % (hours, minutes, seconds)
 
 # Basic Skills
 
@@ -57,6 +64,10 @@ def tell_weather(prompt=None):
     result = get_weather(city)                 
     speak(result)
 
+def tell_joke():
+    joke = pyjokes.get_joke()
+    speak(joke)
+
 # Web & App Skills
 
 def search_web(prompt=None):
@@ -99,7 +110,6 @@ def open_app(name=None):
             speak(f"I couldn't find {name} on this system.")
     else:
         speak("I don't have that app yet.")
-
 # System Skills
 
 def screenshot():
@@ -132,6 +142,16 @@ def lock_pc():
     ctypes.windll.user32.LockWorkStation()
     sys.exit()
 
+def show_battery_status():
+    battery = psutil.sensors_battery()
+    if battery:
+        percent = battery.percent
+        plugged = battery.power_plugged
+        status = "charging" if plugged else "not charging"
+        speak(f"The battery is at {percent}%, is currently {status} and still has {convertTime(battery.secsleft)}s left.")
+    else:
+        speak("I couldn't retrieve the battery status.")
+
 
 def listen_for(question):
     speak(question)
@@ -141,6 +161,8 @@ def listen_for(question):
 EXIT_TRIGGERS = ["exit", "quit", "stop", "goodbye", "bye"]
 
 COMMAND_MAP = {
+    # Basic Features
+
     "time": (tell_time, False),
     "date": (tell_date, False),
     "weather": (tell_weather, True),
@@ -149,6 +171,9 @@ COMMAND_MAP = {
     "help": (show_help, False),
     "what can you do": (show_help, False),
     "features": (show_help, False),
+    "joke": (tell_joke, False),
+    # Web & App Skills
+
     "app": (open_app, False),
     "application": (open_app, False),
     "program": (open_app, False),
@@ -158,9 +183,13 @@ COMMAND_MAP = {
     "webpage": (open_site, False),
     "search": (search_web, True),
     "google": (search_web, True),
+    # System Skills
+
     "lock": (lock_pc, False),
     "screenshot": (screenshot, False),
     "screen shot": (screenshot, False),
     "recycle bin": (empty_recycle_bin, False),
     "recycle": (empty_recycle_bin, False),
+    "battery": (show_battery_status, False),
+    "percentage": (show_battery_status, False),
 }

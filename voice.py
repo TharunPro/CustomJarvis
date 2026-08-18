@@ -10,6 +10,7 @@ recognizer = sr.Recognizer()
 JARVIS_VOICE_ID = r"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_DAVID_11.0"
 
 console.print("[dim]Loading speech model...[/dim]")
+tiny_model = whisper.load_model("tiny")
 whisper_model = whisper.load_model("base")
 console.print("[dim]Model loaded.[/dim]")
 
@@ -24,7 +25,8 @@ def speak(text):
     engine.stop()
 
 
-def listen():
+def listen(model=None):
+    model = model or whisper_model
     with sr.Microphone() as source:
         console.print("[dim]Listening...[/dim]")
         recognizer.adjust_for_ambient_noise(source, duration=1.2)
@@ -33,7 +35,7 @@ def listen():
     try:
         wav_data = audio.get_wav_data(convert_rate=16000, convert_width=2)
         audio_array = np.frombuffer(wav_data, np.int16).astype(np.float32) / 32768.0
-        result = whisper_model.transcribe(audio_array, language="en", fp16=True)
+        result = model.transcribe(audio_array, language="en", fp16=True)
         text = result["text"].strip()
         console.print(f"[green]You said:[/green] {text}")
         return text.lower()

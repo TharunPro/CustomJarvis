@@ -1,13 +1,16 @@
-Skills for J.A.R.V.I.S so far : 
+Skills for J.A.R.V.I.S so far:
 
 1. Greeting the user based on the time of day.
 2. Showing help information about what J.A.R.V.I.S can do.
 3. Telling the current time.
 4. Telling today's date.
 5. Telling the weather for a specified city.
-6. Opening specified websites.
-7. Opening specified applications.
-8. Locking the System.
-9. Emptying the Recycle Bin
-10. Taking a screenshot
-11. Searching the web
+6. Telling a joke for a quick laugh.
+7. Searching the web using Google.
+8. Opening specified websites.
+9. Opening specified applications.
+10. Checking the battery percentage and charging status.
+11. Taking a screenshot.
+12. Locking the system.
+13. Emptying the Recycle Bin.
+14. Exiting the assistant.

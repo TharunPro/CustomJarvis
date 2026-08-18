@@ -1,5 +1,5 @@
 import pyfiglet
-from voice import speak, listen, console  # Voice System
+from voice import speak, listen, console, tiny_model
 from skills import (greet, open_site, open_app, EXIT_TRIGGERS, COMMAND_MAP) 
 from sites import SITES # Websites
 from apps import APPS # Applications
@@ -11,6 +11,9 @@ console.print(
 )
 
 def handle_command(prompt):
+    prompt = prompt.strip().lower().replace("jarvis", "", 1).strip()
+    prompt = prompt.strip(" ,.!?\"")
+
     if prompt.startswith("open "):
         target = prompt[5:].strip()
         if target in SITES:
@@ -20,7 +23,7 @@ def handle_command(prompt):
         else:
             speak("I don't know that site or app yet.")
         return
-    
+
     for keyword, (func, needs_prompt) in COMMAND_MAP.items():
         if keyword in prompt:
             func(prompt) if needs_prompt else func()
@@ -31,13 +34,16 @@ def handle_command(prompt):
 def main():
     greet()
     while True:
-        prompt = listen().rstrip(".,!?")
+        prompt = listen(tiny_model)
         if not prompt:
             continue
-        if any(word in prompt for word in EXIT_TRIGGERS):
-            speak("See you later!")
-            break
-        handle_command(prompt)
+        if "jarvis" not in prompt:
+            continue
+
+        command = prompt.replace("jarvis", "", 1).strip().rstrip(".,!?")
+        if not command:
+            continue
+        handle_command(command)
 
 if __name__ == "__main__":
     main()

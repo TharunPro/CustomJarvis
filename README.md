@@ -9,9 +9,11 @@ This project is designed to be easy to understand and easy to extend. Each skill
 - Greet you based on the time of day
 - Tell the current time and date
 - Fetch the weather for a city
+- Tell a joke when you want a quick laugh
 - Search the web with Google
 - Open websites like YouTube, GitHub, Gmail, and more
 - Open desktop apps like Notepad, Calculator, Paint, Chrome, Discord, and Steam
+- Check your battery percentage and charging status
 - Take a screenshot
 - Lock your PC
 - Empty the Recycle Bin
@@ -102,11 +104,12 @@ Try saying things like:
 - `what can you do`
 - `what time is it`
 - `what's the date`
+- `tell me a joke`
 - `weather in London`
 - `search for python voice assistant`
 - `open youtube`
 - `open notepad`
-- `open calculator`
+- `battery status`
 - `take a screenshot`
 - `lock the pc`
 - `empty recycle bin`
