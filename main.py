@@ -6,7 +6,11 @@ from apps import APPS # Applications
 from rich.panel import Panel # Rich Panel for UI
 
 console.print(
-    pyfiglet.figlet_format("JARVIS", font="ansi_shadow", justify="center"),
+    pyfiglet.figlet_format("Custom", font="ansi_shadow", justify="left"),
+    style="cyan"
+)
+console.print(
+    pyfiglet.figlet_format("Jarvis", font="ansi_shadow", justify="left"),
     style="cyan"
 )
 
